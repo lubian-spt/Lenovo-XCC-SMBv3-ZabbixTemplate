@@ -1,0 +1,11 @@
+Hi!
+
+For this template to work, some configurations are needed in the XCC. 
+First, you have to configure the location and contact on Server configuration > server properties;
+Then, create a SNMPv3 user on Events > Alerts Recipients; Click Create, fill the address for traps field, and leave all the rest as it is.
+For last, go to BMC configuration > Network, select Enable SNMPv3 Agent and click Apply;
+
+After import the template, go to hosts and create a new one and fill the field normally, like Name, templates, groups, except the Interfaces. 
+
+On the interfaces fields you have to Select SNMP, the SNMP Version must be SNMPv3, keep Context name blank. 
+On Security name, place the name of the user you just created (default is USERID); On Security level select noAuthNoPriv
