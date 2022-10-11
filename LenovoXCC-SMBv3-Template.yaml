@@ -1,0 +1,174 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-10-11T23:26:31Z'
+  groups:
+    -
+      uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    -
+      uuid: 0c06706e5c6e4572838db610b3deb8f3
+      template: 'Lenovo - xClarity'
+      name: 'Lenovo - xClarity'
+      groups:
+        -
+          name: Templates
+      items:
+        -
+          uuid: 2f542bddbef34d068e73dea5d023f4c3
+          name: 'System description'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.1.0
+          key: sysDescr
+          delay: 1h
+          trends: '0'
+          value_type: TEXT
+        -
+          uuid: 47e3070691694f7babcdf685986816d9
+          name: 'System name'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.5.0
+          key: sysName
+          delay: 1h
+          trends: '0'
+          value_type: TEXT
+      discovery_rules:
+        -
+          uuid: 12cc1f3a3d3248538defd9cdbba6cc88
+          name: 'Discovery xClarity CPU'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.19046.11.1.1.5.20.1.2]'
+          key: cpu.discovery
+          delay: 1h
+          item_prototypes:
+            -
+              uuid: c202c467a8764d7c9417efbe988a52d7
+              name: '{#SNMPVALUE}: Status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.19046.11.1.1.5.20.1.11.{#SNMPINDEX}'
+              key: 'cpuVpdHealthStatus[{#SNMPINDEX}]'
+              delay: 15m
+              trends: '0'
+              value_type: TEXT
+              trigger_prototypes:
+                -
+                  uuid: fb07cf1c6aec482f9a7e19dd29484b29
+                  expression: 'last(/Lenovo - xClarity/cpuVpdHealthStatus[{#SNMPINDEX}])<>"Normal"'
+                  name: '{#SNMPVALUE}: Status is not normal'
+                  priority: DISASTER
+        -
+          uuid: fc3e49fac30d482589bf6d09c852a20d
+          name: 'Discovery xClarity Fans'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.19046.11.1.1.3.2.1.2]'
+          key: fans.discovery
+          delay: 1h
+          item_prototypes:
+            -
+              uuid: ec70cbd1efd64fc78e3120d1067714fe
+              name: '{#SNMPVALUE}: Fans status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.19046.11.1.1.3.2.1.10.{#SNMPINDEX}'
+              key: 'fanHealthStatus[{#SNMPINDEX}]'
+              delay: 15m
+              trends: '0'
+              value_type: TEXT
+              trigger_prototypes:
+                -
+                  uuid: 172448bacf5040a7bff351873a8f17b8
+                  expression: 'last(/Lenovo - xClarity/fanHealthStatus[{#SNMPINDEX}])<>"Normal" and last(/Lenovo - xClarity/fanHealthStatus[{#SNMPINDEX}])<>"Unknown"'
+                  name: '{#SNMPVALUE}: Status is not normal'
+                  priority: DISASTER
+        -
+          uuid: 584087667f6e4f2fa2036255abbb838b
+          name: 'Discovery xClarity Memory'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.19046.11.1.1.5.21.1.2]'
+          key: memory.discovery
+          delay: 1h
+          item_prototypes:
+            -
+              uuid: 640bc13848e74d6bb0fc3a9abf33b901
+              name: '{#SNMPVALUE}: Memory status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.19046.11.1.1.5.21.1.8.{#SNMPINDEX}'
+              key: 'memoryHealthStatus[{#SNMPINDEX}]'
+              delay: 15m
+              trends: '0'
+              value_type: TEXT
+              trigger_prototypes:
+                -
+                  uuid: 2cfc79e73b0942d9a7501f1a6cf9a808
+                  expression: 'last(/Lenovo - xClarity/memoryHealthStatus[{#SNMPINDEX}])<>"Normal"'
+                  name: '{#SNMPVALUE}: Memory status is not normal'
+                  priority: DISASTER
+        -
+          uuid: 05ef6b778e7e498da74a78763d2ede30
+          name: 'Discovery xClarity Storage'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.19046.11.1.1.12.2.1.1]'
+          key: physicalDisk.discovery
+          delay: 1h
+          description: DiskIndex
+          item_prototypes:
+            -
+              uuid: e86bd9c1962e4be68e9ff84be7145eed
+              name: '{#SNMPVALUE}: Physical disk status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.19046.11.1.1.12.2.1.3.{#SNMPINDEX}'
+              key: 'diskHealthStatus[{#SNMPINDEX}]'
+              delay: 15m
+              trends: '0'
+              value_type: TEXT
+              trigger_prototypes:
+                -
+                  uuid: 1f35d17650884f6ba90a5677d7b8eb77
+                  expression: 'last(/Lenovo - xClarity/diskHealthStatus[{#SNMPINDEX}])<>"Normal"'
+                  name: '{#SNMPVALUE}: Status is not normal'
+                  priority: DISASTER
+        -
+          uuid: 6b08c105957d49b6b203f936ba19933d
+          name: 'Discovery xClarity Power Supply'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.19046.11.1.1.11.2.1.1]'
+          key: powerSupply.discovery
+          delay: 1h
+          item_prototypes:
+            -
+              uuid: f912f2d6ac46400d898d0fadbdeb9fd6
+              name: '{#SNMPVALUE}: Power Supply status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.19046.11.1.1.11.2.1.6.{#SNMPINDEX}'
+              key: 'powerHealthStatus[{#SNMPINDEX}]'
+              delay: 15m
+              trends: '0'
+              value_type: TEXT
+              trigger_prototypes:
+                -
+                  uuid: eb5e4fd46bc54ecbb6d1960abd559fc9
+                  expression: 'last(/Lenovo - xClarity/powerHealthStatus[{#SNMPINDEX}])<>"Normal"'
+                  name: '{#SNMPVALUE}: Power Supply status is not normal'
+                  priority: DISASTER
+        -
+          uuid: bc474fbfd44c47938391941d9267bfad
+          name: 'Discovery xClarity Temperature'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.19046.11.1.1.1.2.1.2]'
+          key: temperature.discovery
+          delay: 1h
+          item_prototypes:
+            -
+              uuid: 33bbd5888c5c4ec18e7c1c0b5f3c88b9
+              name: '{#SNMPVALUE}: Temperature status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.19046.11.1.1.1.2.1.11.{#SNMPINDEX}'
+              key: 'tempHealthStatus[{#SNMPINDEX}]'
+              delay: 15m
+              trends: '0'
+              value_type: TEXT
+              trigger_prototypes:
+                -
+                  uuid: 718ca48fb73647bd8ddeabf1ecef98d7
+                  expression: 'last(/Lenovo - xClarity/tempHealthStatus[{#SNMPINDEX}])<>"Normal"'
+                  name: '{#SNMPVALUE}: Temperature is not normal'
+                  priority: DISASTER
